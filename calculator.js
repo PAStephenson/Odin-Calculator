@@ -1,22 +1,3 @@
-// let number one
-// let number two
-// let operation
-//
-// when number is pressed store it in a array
-//
-// when operation button is pressed convert the numbers in the array
-// into one long number (think there is a method for this) and set it 
-// to be number one or number two
-// 	if one is NaN set to 1
-// 	if one is a number set to two
-//
-// when operation button is pressed, check if number two is a number
-// if yes, perform the operation on 1 and 2
-// 	then reset the numbers, set 1 equal to the answer to continue
-// 	with calculation
-//
-// if no, do what a real calculator does
-
 // Calculator display
 const display = document.querySelector("#display");
 
@@ -31,72 +12,88 @@ const btn6 = document.querySelector("#btn6");
 const btn7 = document.querySelector("#btn7");
 const btn8 = document.querySelector("#btn8");
 const btn9 = document.querySelector("#btn9");
+const btnDecimal = document.querySelector("#btnDecimal");
 // Operation buttons
 const btnPlus = document.querySelector("#btnPlus");
 const btnMinus = document.querySelector("#btnMinus");
 const btnTimes = document.querySelector("#btnTimes");
 const btnDivide = document.querySelector("#btnDivide");
 const btnEquals = document.querySelector("#btnEquals");
+const btnClear = document.querySelector("#btnClear");
 
 let numberInput = [];
-let firstNumber;
-let secondNumber;
-let operation;
+let firstNumber = "";
+let secondNumber = "";
+let operation = "";
 
-btn0.addEventListener("click", () => {updateInput(0)});
-btn1.addEventListener("click", () => {updateInput(1)});
-btn2.addEventListener("click", () => {updateInput(2)});
-btn3.addEventListener("click", () => {updateInput(3)});
-btn4.addEventListener("click", () => {updateInput(4)});
-btn5.addEventListener("click", () => {updateInput(5)});
-btn6.addEventListener("click", () => {updateInput(6)});
-btn7.addEventListener("click", () => {updateInput(7)});
-btn8.addEventListener("click", () => {updateInput(8)});
-btn9.addEventListener("click", () => {updateInput(9)});
+btn0.addEventListener("click", () => {update(0)});
+btn1.addEventListener("click", () => {update(1)});
+btn2.addEventListener("click", () => {update(2)});
+btn3.addEventListener("click", () => {update(3)});
+btn4.addEventListener("click", () => {update(4)});
+btn5.addEventListener("click", () => {update(5)});
+btn6.addEventListener("click", () => {update(6)});
+btn7.addEventListener("click", () => {update(7)});
+btn8.addEventListener("click", () => {update(8)});
+btn9.addEventListener("click", () => {update(9)});
+btnDecimal.addEventListener("click", () => {update(".")});
 
-btnPlus.addEventListener("click", () => {updateInput(" + ")});
-btnMinus.addEventListener("click", () => {updateInput(" - ")});
-btnTimes.addEventListener("click", () => {updateInput(" * ")});
-btnDivide.addEventListener("click", () => {updateInput(" / ")});
+btnPlus.addEventListener("click", () => {update(" + ")});
+btnMinus.addEventListener("click", () => {update(" - ")});
+btnTimes.addEventListener("click", () => {update(" * ")});
+btnDivide.addEventListener("click", () => {update(" / ")});
 btnEquals.addEventListener("click", () => {performCalc()});
+btnClear.addEventListener("click", () => {allClear()});
 
-function updateInput(input) {
-	if (isNaN(input)) {
-		assignOperation(input);
-		updateDisplay(input);
-	} else {
+function update(input) {
+	updateDisplay(input);
+
+	if (!isNaN(input) || input == ".") {
 		numberInput.push(input);
-		updateDisplay(input);
+	} else {
+		updateOperation(input);
 	}
 }
 
 function updateDisplay(input) {
-	display.append(input);
+	if (display.textContent == "0" && input != ".") {
+		display.textContent = input;
+	} else {
+		display.append(input);
+	}
 }
 
 function displayResult() {
 	display.textContent = firstNumber;
 }
 
-function assignOperation(op) {
-	assignNumber();
-	operation = op;
-}
-
-function assignNumber() {
-	if (isNaN(firstNumber)) {
-		firstNumber = parseInt(numberInput.join(""));
+function updateNumbers() {
+	if (firstNumber == "") {
+		firstNumber = parseFloat(numberInput.join(""));
 		numberInput = [];
 		return;
-	} else if (isNaN(secondNumber)) {
-		secondNumber = parseInt(numberInput.join(""));
+	} else {
+		secondNumber = parseFloat(numberInput.join(""));
 		numberInput = [];
-		return;
+		return;	
 	}
 }
 
+function updateOperation(operator) {
+	updateNumbers();
+	operation = operator;
+}
+
+function allClear() {
+	numberInput = [];
+	firstNumber = "";
+	secondNumber = "";
+	operation = "";
+	display.textContent = "0";
+}
+
 function performCalc() {
-	assignNumber();
+	updateNumbers();
 
 	switch (operation) {
 		case " + ":
@@ -116,24 +113,24 @@ function performCalc() {
 
 function performAddition() {
 	firstNumber += secondNumber;
-	secondNumber = null;
+	secondNumber = "";
 	displayResult();
 }
 
 function performSubtraction() {
 	firstNumber -= secondNumber;
-	secondNumber = null;
+	secondNumber = "";
 	displayResult();
 }
 
 function performMultiplication() {
 	firstNumber *= secondNumber;
-	secondNumber = null;
+	secondNumber = "";
 	displayResult();
 }
 
 function performDivision() {
 	firstNumber /= secondNumber;
-	secondNumber = null;
+	secondNumber = "";
 	displayResult();
 }
