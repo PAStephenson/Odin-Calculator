@@ -21,45 +21,48 @@ const btnDivide = document.querySelector("#btnDivide");
 const btnEquals = document.querySelector("#btnEquals");
 const btnClear = document.querySelector("#btnClear");
 
-let numberInput = [];
 let firstNumber = "";
 let secondNumber = "";
 let operation = "";
 
-btn0.addEventListener("click", () => {update(0)});
-btn1.addEventListener("click", () => {update(1)});
-btn2.addEventListener("click", () => {update(2)});
-btn3.addEventListener("click", () => {update(3)});
-btn4.addEventListener("click", () => {update(4)});
-btn5.addEventListener("click", () => {update(5)});
-btn6.addEventListener("click", () => {update(6)});
-btn7.addEventListener("click", () => {update(7)});
-btn8.addEventListener("click", () => {update(8)});
-btn9.addEventListener("click", () => {update(9)});
-btnDecimal.addEventListener("click", () => {update(".")});
+btn0.addEventListener("click", () => {updateNumbers(0)});
+btn1.addEventListener("click", () => {updateNumbers(1)});
+btn2.addEventListener("click", () => {updateNumbers(2)});
+btn3.addEventListener("click", () => {updateNumbers(3)});
+btn4.addEventListener("click", () => {updateNumbers(4)});
+btn5.addEventListener("click", () => {updateNumbers(5)});
+btn6.addEventListener("click", () => {updateNumbers(6)});
+btn7.addEventListener("click", () => {updateNumbers(7)});
+btn8.addEventListener("click", () => {updateNumbers(8)});
+btn9.addEventListener("click", () => {updateNumbers(9)});
+btnDecimal.addEventListener("click", () => {updateNumbers(".")});
 
-btnPlus.addEventListener("click", () => {update(" + ")});
-btnMinus.addEventListener("click", () => {update(" - ")});
-btnTimes.addEventListener("click", () => {update(" * ")});
-btnDivide.addEventListener("click", () => {update(" / ")});
+btnPlus.addEventListener("click", () => {updateOperation("+")});
+btnMinus.addEventListener("click", () => {updateOperation("-")});
+btnTimes.addEventListener("click", () => {updateOperation("*")});
+btnDivide.addEventListener("click", () => {updateOperation("/")});
 btnEquals.addEventListener("click", () => {performCalc()});
 btnClear.addEventListener("click", () => {allClear()});
 
-function update(input) {
-	updateDisplay(input);
-
-	if (!isNaN(input) || input == ".") {
-		numberInput.push(input);
+function updateNumbers(input) {
+	if (operation != "") {
+		secondNumber = secondNumber.concat(input);
 	} else {
-		updateOperation(input);
+		firstNumber = firstNumber.concat(input);
 	}
+
+	updateDisplay()
 }
 
-function updateDisplay(input) {
-	if (display.textContent == "0" && input != ".") {
-		display.textContent = input;
+function updateOperation(input) {
+	operation = input;
+}
+
+function updateDisplay() {
+	if (operation != "") {
+		display.textContent = secondNumber;
 	} else {
-		display.append(input);
+		display.textContent = firstNumber;
 	}
 }
 
@@ -67,25 +70,7 @@ function displayResult() {
 	display.textContent = firstNumber;
 }
 
-function updateNumbers() {
-	if (firstNumber == "") {
-		firstNumber = parseFloat(numberInput.join(""));
-		numberInput = [];
-		return;
-	} else {
-		secondNumber = parseFloat(numberInput.join(""));
-		numberInput = [];
-		return;	
-	}
-}
-
-function updateOperation(operator) {
-	updateNumbers();
-	operation = operator;
-}
-
 function allClear() {
-	numberInput = [];
 	firstNumber = "";
 	secondNumber = "";
 	operation = "";
@@ -93,44 +78,46 @@ function allClear() {
 }
 
 function performCalc() {
-	updateNumbers();
-
 	switch (operation) {
-		case " + ":
+		case "+":
 			performAddition();
 			break;
-		case " - ":
+		case "-":
 			performSubtraction();
 			break;
-		case " * ":
+		case "*":
 			performMultiplication();
 			break;
-		case " / ":
+		case "/":
 			performDivision();
 			break;
 	}
 }
 
 function performAddition() {
-	firstNumber += secondNumber;
+	firstNumber = parseFloat(firstNumber) + parseFloat(secondNumber);
+	operation = ""
 	secondNumber = "";
 	displayResult();
 }
 
 function performSubtraction() {
 	firstNumber -= secondNumber;
+	operation = ""
 	secondNumber = "";
 	displayResult();
 }
 
 function performMultiplication() {
 	firstNumber *= secondNumber;
+	operation = ""
 	secondNumber = "";
 	displayResult();
 }
 
 function performDivision() {
 	firstNumber /= secondNumber;
+	operation = ""
 	secondNumber = "";
 	displayResult();
 }
