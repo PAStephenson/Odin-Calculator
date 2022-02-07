@@ -45,6 +45,10 @@ btnEquals.addEventListener("click", () => {performCalc()});
 btnClear.addEventListener("click", () => {allClear()});
 
 function updateNumbers(input) {
+	if (input == "." && (firstNumber == "" || secondNumber == "")) {
+		input = "0.";
+	}
+
 	if (operation != "") {
 		secondNumber = secondNumber.concat(input);
 	} else {
@@ -55,6 +59,9 @@ function updateNumbers(input) {
 }
 
 function updateOperation(input) {
+	if (operation != "") {
+		performCalc();
+	}	
 	operation = input;
 }
 
@@ -116,8 +123,15 @@ function performMultiplication() {
 }
 
 function performDivision() {
-	firstNumber /= secondNumber;
-	operation = ""
-	secondNumber = "";
-	displayResult();
+	if (secondNumber == "0") {
+		display.textContent = "Can't divide by 0!";
+		firstNumber = "";
+		secondNumber = "";
+		operation = "";
+	} else {
+		firstNumber /= secondNumber;
+		operation = ""
+		secondNumber = "";
+		displayResult();
+	}
 }
