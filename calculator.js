@@ -45,17 +45,29 @@ btnEquals.addEventListener("click", () => {performCalc()});
 btnClear.addEventListener("click", () => {allClear()});
 
 function updateNumbers(input) {
-	if (input == "." && (firstNumber == "" || secondNumber == "")) {
-		input = "0.";
-	}
-
 	if (operation != "") {
-		secondNumber = secondNumber.concat(input);
+		if (input == "." && secondNumber == "") {
+			input = "0.";
+		} else if (input == "." && secondNumber.includes(".")) {
+			input = "";
+		}
+		
+		if (secondNumber.length < 10) {
+			secondNumber = secondNumber.concat(input);
+		}
 	} else {
-		firstNumber = firstNumber.concat(input);
+		if (input == "." && firstNumber == "") {
+			input = "0.";
+		} else if (input == "." && firstNumber.includes(".")) {
+			input = "";
+		}
+
+		if (firstNumber.length < 10) {
+			firstNumber = firstNumber.concat(input);
+		}
 	}
 
-	updateDisplay()
+	updateDisplay();
 }
 
 function updateOperation(input) {
@@ -85,6 +97,10 @@ function allClear() {
 }
 
 function performCalc() {
+	if (firstNumber == "" || secondNumber == "") {
+		return;
+	}
+
 	switch (operation) {
 		case "+":
 			performAddition();
@@ -124,7 +140,7 @@ function performMultiplication() {
 
 function performDivision() {
 	if (secondNumber == "0") {
-		display.textContent = "Can't divide by 0!";
+		display.textContent = "lol";
 		firstNumber = "";
 		secondNumber = "";
 		operation = "";
