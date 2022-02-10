@@ -86,7 +86,17 @@ function updateDisplay() {
 }
 
 function displayResult() {
-	display.textContent = firstNumber;
+	if (numberLength(firstNumber) > 10) {
+		if (firstNumber % 1 != 0) {
+			decimalPlaces = 10 - numberLength(Math.trunc(firstNumber));
+			result = firstNumber.toFixed(decimalPlaces);
+			display.textContent = parseFloat(result);
+		} else {
+			display.textContent = firstNumber.toPrecision(10);
+		}
+	} else {
+		display.textContent = firstNumber;
+	}
 }
 
 function allClear() {
@@ -115,6 +125,10 @@ function performCalc() {
 			performDivision();
 			break;
 	}
+}
+
+function numberLength(number) {
+	return number.toString().length;
 }
 
 function performAddition() {
