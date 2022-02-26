@@ -20,6 +20,8 @@ const btnTimes = document.querySelector("#btnTimes");
 const btnDivide = document.querySelector("#btnDivide");
 const btnEquals = document.querySelector("#btnEquals");
 const btnClear = document.querySelector("#btnClear");
+const btnPlusMinus = document.querySelector("#btnPlusMinus");
+const btnPercent = document.querySelector("#btnPercent");
 
 let firstNumber = "";
 let secondNumber = "";
@@ -41,6 +43,7 @@ btnPlus.addEventListener("click", () => {updateOperation("+")});
 btnMinus.addEventListener("click", () => {updateOperation("-")});
 btnTimes.addEventListener("click", () => {updateOperation("*")});
 btnDivide.addEventListener("click", () => {updateOperation("/")});
+btnPlusMinus.addEventListener("click", () => {plusMinus()});
 btnEquals.addEventListener("click", () => {performCalc()});
 btnClear.addEventListener("click", () => {allClear()});
 
@@ -129,6 +132,16 @@ function performCalc() {
 
 function numberLength(number) {
 	return number.toString().length;
+}
+
+function plusMinus() {
+	if (operation == "") {
+		firstNumber *= -1;
+		display.textContent = firstNumber;
+	} else {
+		secondNumber *= -1;
+		display.textContent = secondNumber;
+	}
 }
 
 function performAddition() {
