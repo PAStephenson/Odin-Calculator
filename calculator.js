@@ -44,6 +44,7 @@ btnMinus.addEventListener("click", () => {updateOperation("-")});
 btnTimes.addEventListener("click", () => {updateOperation("*")});
 btnDivide.addEventListener("click", () => {updateOperation("/")});
 btnPlusMinus.addEventListener("click", () => {plusMinus()});
+btnPercent.addEventListener("click", () => {percent()});
 btnEquals.addEventListener("click", () => {performCalc()});
 btnClear.addEventListener("click", () => {allClear()});
 
@@ -140,6 +141,21 @@ function plusMinus() {
 		display.textContent = firstNumber;
 	} else {
 		secondNumber *= -1;
+		display.textContent = secondNumber;
+	}
+}
+
+function percent() {
+	if (firstNumber == "") {
+		return;
+	} else if (operation == "") {
+		firstNumber /= 100;
+		display.textContent = firstNumber;
+	} else if (operation != "" && secondNumber == "") {
+		secondNumber = firstNumber / 100;
+		display.textContent = secondNumber;
+	} else {
+		secondNumber = firstNumber * secondNumber / 100;
 		display.textContent = secondNumber;
 	}
 }
