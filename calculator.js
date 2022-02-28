@@ -56,7 +56,7 @@ function updateNumbers(input) {
 			input = "";
 		}
 		
-		if (secondNumber.length < 10) {
+		if (secondNumber.length < 8) {
 			secondNumber = secondNumber.concat(input);
 		}
 	} else {
@@ -66,7 +66,7 @@ function updateNumbers(input) {
 			input = "";
 		}
 
-		if (firstNumber.length < 10) {
+		if (firstNumber.length < 8) {
 			firstNumber = firstNumber.concat(input);
 		}
 	}
@@ -90,13 +90,13 @@ function updateDisplay() {
 }
 
 function displayResult() {
-	if (numberLength(firstNumber) > 10) {
+	if (numberLength(firstNumber) > 8) {
 		if (firstNumber % 1 != 0) {
-			decimalPlaces = 10 - numberLength(Math.trunc(firstNumber));
+			decimalPlaces = 8 - numberLength(Math.trunc(firstNumber));
 			result = firstNumber.toFixed(decimalPlaces);
 			display.textContent = parseFloat(result);
 		} else {
-			display.textContent = firstNumber.toPrecision(10);
+			display.textContent = firstNumber.toPrecision(8);
 		}
 	} else {
 		display.textContent = firstNumber;
